@@ -1,0 +1,32 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - shop</title>
+        {% else %}
+        <title>shop</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>
+            Microblog:
+            <a href="{{ url_for('index') }}">Домашняя страница</a>
+            {% if current_user.is_anonymous %}
+            <a href="{{ url_for('login') }}">Войти в систему</a>
+            {% else %}
+            <a href="{{ url_for('logout') }}">Выйти из системы</a>
+            {% endif %}
+            <a href="{{ url_for('items') }}">Товары</a>
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html>

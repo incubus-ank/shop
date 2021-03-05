@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Доступные товары:</h1>
+    <hr>
+    {% for item in items %}
+    <p>
+    {{ item.name}} <br>
+    Описание: {{ item.description }}<br>
+    Категория: {{ item.category }}<br>
+    Цена: <b>{{ item.price }}</b><br>
+    Количество: {{ item.quantities }}<br>
+    </p>
+    {% endfor %}
+{% endblock %}
