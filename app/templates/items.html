@@ -12,4 +12,10 @@
     Количество: {{ item.quantities }}<br>
     </p>
     {% endfor %}
+    {% if prev_url %}
+    <a href="{{ prev_url }}">Предыдущая страница</a>
+    {% endif %}
+    {% if next_url %}
+    <a href="{{ next_url }}">Следующая страница</a>
+    {% endif %}
 {% endblock %}

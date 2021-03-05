@@ -58,8 +58,13 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route('/items')
+@app.route('/items/')
 def items():
-
-    items = Item.query.all()
-    return render_template('items.html', items=items)
+    page = request.args.get('page', 1, type=int)
+    items = Item.query.paginate(page, 10, False)
+    #items = Item.query.all()
+    next_url = url_for('items', page=items.next_num) \
+        if items.has_next else None
+    prev_url = url_for('items', page=items.prev_num) \
+        if items.has_prev else None
+    return render_template('items.html', items=items.items, page=page, next_url=next_url, prev_url=prev_url)
