@@ -1,19 +1,17 @@
 <html>
     <head>
-        {% if title %}
-        <title>{{ title }} - shop</title>
-        {% else %}
-        <title>shop</title>
-        {% endif %}
+        <title>ITshop</title>
     </head>
     <body>
         <div>
-            Microblog:
             <a href="{{ url_for('index') }}">Домашняя страница</a>
             {% if current_user.is_anonymous %}
             <a href="{{ url_for('login') }}">Войти в систему</a>
             {% else %}
             <a href="{{ url_for('logout') }}">Выйти из системы</a>
+            <a href="{{ url_for('category') }}">Категории</a>
+            <a href="{{ url_for('items') }}">Управление товарами</a>
+            <a href="{{ url_for('items') }}">Управление категориями</a>
             {% endif %}
             <a href="{{ url_for('items') }}">Товары</a>
         </div>

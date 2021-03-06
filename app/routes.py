@@ -6,7 +6,7 @@ from app.forms import LoginForm
 
 from flask_login import current_user, login_user
 from flask_login import logout_user
-from app.models import User, Item
+from app.models import User, Item, Category
 from flask_login import login_required
 from werkzeug.urls import url_parse
 
@@ -68,3 +68,13 @@ def items():
     prev_url = url_for('items', page=items.prev_num) \
         if items.has_prev else None
     return render_template('items.html', items=items.items, page=page, next_url=next_url, prev_url=prev_url)
+
+
+@app.route('/category')
+def category():
+    cats = Category.query.all()
+    return render_template('category.html', cats=cats)
+
+# @app.route('/test')
+# def test():
+#     return render_template('test.html')

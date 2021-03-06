@@ -22,9 +22,12 @@ class User(UserMixin, db.Model):
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), nullable=False)
+    name = db.Column(db.String(30), nullable=False, unique=True)
     description = db.Column(db.String(500), nullable=True)
     items = db.relationship('Item', backref='cat', lazy='dynamic')
+
+    def __repr__(self):
+        return "{" + "'name': {}, 'description': {} },".format(self.name, self.description)
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -32,7 +35,7 @@ class Item(db.Model):
     description = db.Column(db.String(500), nullable=True)
     price = db.Column(db.Float, nullable=False)
     quantities = db.Column(db.Integer, nullable=False)
-    category = db.Column(db.Integer, db.ForeignKey('category.id'))
+    category = db.Column(db.Integer, db.ForeignKey('category.name'))
 
     def __repr__(self):
         return "{" + "'name': {}, 'description': {}, 'price': {}, 'quantities': {}, 'category': {} },".format(self.name, self.description, self.price, self.quantities, self.category)

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Категории товаров:</h1>
+    <hr>
+    {% for category in cats %}
+    <p>
+    {{ category.name}} <br>
+    Описание: {{ category.description }}<br>
+    Количество: {{ category.items.count() }}<br>
+    </p>
+    {% endfor %}
+{% endblock %}
