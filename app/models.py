@@ -29,6 +29,9 @@ class Category(db.Model):
     def __repr__(self):
         return "{" + "'name': {}, 'description': {} },".format(self.name, self.description)
 
+    def get_count_item(self):
+        return db.session.query(db.func.sum(Item.quantities)).filter_by(category=self.name).scalar()
+
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(550), nullable=False)

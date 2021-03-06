@@ -7,7 +7,7 @@
     <p>
     {{ category.name}} <br>
     Описание: {{ category.description }}<br>
-    Количество: {{ category.items.count() }}<br>
+    Количество: {{ category.get_count_item()}}<br>
     </p>
     {% endfor %}
 {% endblock %}

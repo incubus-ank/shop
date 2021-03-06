@@ -19,8 +19,7 @@ login.login_view = 'login'
 
 from app import routes, models, db, TestScript
 
-TestScript.TestDate()
-
+#TestScript.TestDate()
 
 
 
