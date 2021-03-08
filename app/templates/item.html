@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{item.name}}</h1>
+    <p>
+    <img src="{{ item.img }}" alt="img" width="128" height="128"><br>
+    Описание: {{ item.description }}<br>
+    Категория: {{ item.category }}<br>
+    Цена: <b>{{'%0.2f'| format(item.price|float)}}</b><br>
+    Количество: {{ item.quantities }}<br>
+    </p>
+{% endblock %}

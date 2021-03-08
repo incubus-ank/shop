@@ -3,6 +3,7 @@ from app import login
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from sqlalchemy import insert 
 
 
 class User(UserMixin, db.Model):
@@ -34,11 +35,12 @@ class Category(db.Model):
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(550), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(500), nullable=True)
     price = db.Column(db.Float, nullable=False)
     quantities = db.Column(db.Integer, nullable=False)
     category = db.Column(db.Integer, db.ForeignKey('category.name'))
+    img = db.Column(db.String(500), nullable=True)
 
     def __repr__(self):
         return "{" + "'name': {}, 'description': {}, 'price': {}, 'quantities': {}, 'category': {} },".format(self.name, self.description, self.price, self.quantities, self.category)
@@ -53,6 +55,7 @@ class History(db.Model):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
 
 
 

@@ -3,10 +3,13 @@
 {% block content %}
     <h1>Категории товаров:</h1>
     <hr>
-    {% for category in cats %}
     <p>
-    {{ category.name}} <br>
-    Описание: {{ category.description }}<br>
+    {% for category in cats %}
+    <a href="/category/{{category.name}}"> {{category.name}} </a><br>
+    Описание: {{ category.description[:99] }}
+    {% if category.description|length > 99 %}
+    ...
+    {%  endif %}<br>
     Количество: {{ category.get_count_item()}}<br>
     </p>
     {% endfor %}

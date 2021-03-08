@@ -5,10 +5,14 @@
     <hr>
     {% for item in items %}
     <p>
-    {{ item.name}} <br>
-    Описание: {{ item.description }}<br>
+    <img src="{{ item.img }}" alt="img" width="128" height="128"><br>
+    <a href="/items/{{item.id}}"> {{item.name}} </a><br>
+    Описание: {{ item.description[:200] }} 
+    {% if item.description|length > 200 %}
+    ...
+    {%  endif %}<br>
     Категория: {{ item.category }}<br>
-    Цена: <b>{{ item.price }}</b><br>
+    Цена: <b>{{'%0.2f'| format(item.price|float)}}</b><br>
     Количество: {{ item.quantities }}<br>
     </p>
     {% endfor %}
