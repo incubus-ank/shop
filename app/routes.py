@@ -58,6 +58,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
+
 @app.route('/items/')
 def items():
     page = request.args.get('page', 1, type=int)
@@ -70,12 +71,14 @@ def items():
     return render_template('items.html', items=items.items, page=page, next_url=next_url, prev_url=prev_url)
 
 @app.route('/items/<item>')
+@login_required
 def item(item):
     item = Item.query.filter_by(id=int(item)).first_or_404()
     print(item.name)
     return render_template('item.html', item=item)
 
 @app.route('/category/<cat>/')
+@login_required
 def cat_items(cat):
     page = request.args.get('page', 1, type=int)
     cat_items = Item.query.filter_by(category=str(cat)).paginate(page, 10, False)
@@ -86,6 +89,7 @@ def cat_items(cat):
     return render_template('items.html', items=cat_items.items, page=page, next_url=next_url, prev_url=prev_url)
 
 @app.route('/category')
+@login_required
 def category():
     cats = Category.query.all()
     return render_template('category.html', cats=cats)

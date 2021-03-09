@@ -27,5 +27,12 @@ FLASK_APP=shop.py flask shell
 
 kill -9 $(ps -A | grep python | awk '{print $1}')
 ps
+
+
+sudo -u postgres psql
+\password 
+create database name_db;
+drop database name_db
+
 ```
 
