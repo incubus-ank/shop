@@ -39,7 +39,7 @@ class Item(db.Model):
     description = db.Column(db.String(500), nullable=True)
     price = db.Column(db.Float, nullable=False)
     quantities = db.Column(db.Integer, nullable=False)
-    category = db.Column(db.String(30), db.ForeignKey('category.name'))
+    category = db.Column(db.String(30), db.ForeignKey('category.name', ondelete='CASCADE'))
     img = db.Column(db.String(500), nullable=True)
 
     def __repr__(self):

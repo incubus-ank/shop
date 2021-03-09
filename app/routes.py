@@ -11,7 +11,8 @@ from flask_login import login_required
 from werkzeug.urls import url_parse
 
 from app import db
-from app.forms import RegistrationForm
+from app.forms import RegistrationForm, AddItem, UpdateItem, DeleteItem, AddCat, UpdateCat, DeleteCat
+
 
 @app.route('/')
 @app.route('/index')
@@ -56,7 +57,7 @@ def register():
         db.session.commit()
         flash('Вы зарегистрированы. Войдите в систему')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+    return render_template('register.html', form=form)
 
 
 @app.route('/items/')
@@ -94,6 +95,86 @@ def category():
     cats = Category.query.all()
     return render_template('category.html', cats=cats)
 
+
+@app.route('/items/add', methods=['GET', 'POST'])
+def add_item():
+    form = AddItem()
+    if form.validate_on_submit():
+        item = Item(name=form.name.data, description=form.description.data, price=form.price.data, quantities=form.quantities.data, category=form.category.data)
+        db.session.add(item)
+        db.session.commit()
+        flash('Товар добавлен')
+        return redirect(url_for('items'))
+    return render_template('man_item.html', form=form, act='Добавление Товара')
+
+@app.route('/items/update', methods=['GET', 'POST'])
+def update_item():
+    form = UpdateItem()
+    if form.validate_on_submit():
+        item = Item.query.filter_by(name=form.name.data).first()
+        print (item.id)
+        if form.description.data is not None:
+            item.description = form.description.data
+            print(item.description)
+        if form.price.data is not None:
+            item.price = form.price.data
+        if form.quantities.data is not None:
+            item.quantities = form.quantities.data
+        if form.category.data != '':
+            item.category = form.category.data
+        db.session.add(item)
+        db.session.commit()
+        flash('Товар изменен')
+        return redirect(url_for('items'))
+    return render_template('man_item.html', form=form, act='Изменение Товара')
+
+@app.route('/items/delete', methods=['GET', 'POST'])
+def delete_item():
+    form = DeleteItem()
+    if form.validate_on_submit():
+        Item.query.filter_by(name=form.name.data).delete()
+        db.session.commit()
+        flash('Товар удален')
+        return redirect(url_for('items'))
+    return render_template('delete.html', form=form, act='Удаление Товара')
+
+@app.route('/category/add', methods=['GET', 'POST'])
+def add_category():
+    form = AddCat()
+    if form.validate_on_submit():
+        cat = Category(name=form.name.data, description=form.description.data)
+        db.session.add(cat)
+        db.session.commit()
+        flash('Категория добавлена')
+        return redirect(url_for('category'))
+    return render_template('man_cat.html', form=form, act='Добавлена Категория')
+
+@app.route('/category/update', methods=['GET', 'POST'])
+def update_category():
+    form = UpdateCat()
+    if form.validate_on_submit():
+        cat = Category.query.filter_by(name=form.name.data).first()
+        cat.description = form.description.data
+        db.session.add(cat)
+        db.session.commit()
+        flash('Категория изменен')
+        return redirect(url_for('category'))
+    return render_template('man_cat.html', form=form, act='Изменение Категории')
+
+@app.route('/category/delete', methods=['GET', 'POST'])
+def delete_category():
+    form = DeleteCat()
+    if form.validate_on_submit():
+        Category.query.filter_by(name=form.name.data).delete()
+        db.session.commit()
+        flash('Категория удалена')
+        return redirect(url_for('category'))
+    return render_template('delete.html', form=form, act='Удаление Категории')
+
+@app.route('/manage/<est>')
+def manage(est):
+        return render_template('manage.html',est=est)
+        
 
 # @app.route('/test')
 # def test():

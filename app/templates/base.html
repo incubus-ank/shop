@@ -10,8 +10,8 @@
             {% else %}
             <a href="{{ url_for('logout') }}">Выйти из системы</a>
             <a href="{{ url_for('category') }}">Категории</a>
-            <a href="{{ url_for('items') }}">Управление товарами</a>
-            <a href="{{ url_for('items') }}">Управление категориями</a>
+            <a href="/manage/items">Управление товарами</a>
+            <a href="/manage/category">Управление категориями</a>
             {% endif %}
             <a href="{{ url_for('items') }}">Товары</a>
         </div>
