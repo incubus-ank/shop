@@ -9,4 +9,12 @@
     Цена: <b>{{'%0.2f'| format(item.price|float)}}</b><br>
     Количество: {{ item.quantities }}<br>
     </p>
+    <h3>История:</h3>
+    {% for history in historys %}
+    <p>
+    Дата: {{ history.date }}<br>
+    Старое количество товара: {{ history.quantities_old }}<br>
+    Новое количество товара: {{ history.quantities_next }}<br>
+    </p>
+    {%  endfor %}
 {% endblock %}

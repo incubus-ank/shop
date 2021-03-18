@@ -1,12 +1,13 @@
 from flask import render_template, flash, redirect, url_for
 from flask import request
+from datetime import datetime
 
 from app import app
 from app.forms import LoginForm
 
 from flask_login import current_user, login_user
 from flask_login import logout_user
-from app.models import User, Item, Category
+from app.models import User, Item, Category, History
 from flask_login import login_required
 from werkzeug.urls import url_parse
 
@@ -76,7 +77,10 @@ def items():
 def item(item):
     item = Item.query.filter_by(id=int(item)).first_or_404()
     print(item.name)
-    return render_template('item.html', item=item)
+    historys = History.query.filter_by(item_id=item.id)
+    for history in historys:
+        print(history.date)
+    return render_template('item.html', item=item, historys=historys)
 
 @app.route('/category/<cat>/')
 @login_required
@@ -93,6 +97,7 @@ def cat_items(cat):
 @login_required
 def category():
     cats = Category.query.all()
+    print(datetime.utcnow())
     return render_template('category.html', cats=cats)
 
 
@@ -119,7 +124,9 @@ def update_item():
         if form.price.data is not None:
             item.price = form.price.data
         if form.quantities.data is not None:
+            h = History(item_id=item.id, quantities_old=item.quantities,quantities_next=form.quantities.data, date=datetime.utcnow() )
             item.quantities = form.quantities.data
+            db.session.add(h)
         if form.category.data != '':
             item.category = form.category.data
         db.session.add(item)
